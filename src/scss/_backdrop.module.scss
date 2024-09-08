@@ -1,0 +1,14 @@
+.backdrop {
+  position: fixed;
+  z-index: 2000;
+  background: rgb(9 31 58 / 76%);
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease-in-out;
+
+  &_active {
+    opacity: 1;
+    pointer-events: all;
+  }
+}

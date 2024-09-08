@@ -1,0 +1,26 @@
+@import './mixins';
+
+.container {
+  padding-right: 15.625%;
+  padding-left: 15.625%;
+
+  @media (max-width: 1600px) {
+    padding-right: 13%;
+    padding-left: 13%;
+  }
+
+  @include media-l {
+    padding-right: 10.5%;
+    padding-left: 10.5%;
+  }
+
+  @include media-m {
+    padding-right: 7%;
+    padding-left: 7%;
+  }
+
+  @include media-s {
+    padding-right: 5%;
+    padding-left: 5%;
+  }
+}

@@ -1,0 +1,150 @@
+@import '../../scss/mixins';
+@import '../../scss/colors';
+
+.card {
+  width: 100%;
+
+  @include flex-builder(column, stretch, flex-start);
+
+  padding: 7.38%;
+  outline: 1px solid $dark-grey;
+  transition: outline-color .05s ease-in-out;
+
+  &:hover {
+    z-index: 1;
+    outline-color: $blue;
+  }
+
+  &:active {
+    outline-color: $blue-active;
+  }
+}
+
+.iconButtonsBlock {
+  align-self: flex-end;
+  margin-bottom: 10px;
+  gap: 12px;
+
+  @include flex-builder(row, flex-start, center);
+}
+
+.iconButton {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  fill: rgb(194 203 211);
+  transition: all .05 ease-in-out;
+
+  &:hover {
+    fill: $blue;
+  }
+
+  &:active {
+    fill: $dark-blue;
+  }
+
+  &_active {
+    fill: $blue;
+
+    &:hover {
+      fill: $dark-blue;
+    }
+
+    &:active {
+      fill: $blue-active;
+    }
+  }
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+}
+
+.spinner {
+  width: 50%;
+  height: 50%;
+  fill: $blue;
+}
+
+.imageLink {
+  width: 100%;
+
+  @include flex-builder(row, center, center);
+
+  @media (max-width: 1600px) {
+    height: 220px;
+  }
+
+  @media (max-width: 1250px) {
+    height: 200px;
+  }
+}
+
+.image {
+  width: 100%;
+
+  @media (max-width: 1600px) {
+    max-width: 160px;
+    max-height: 220px;
+  }
+
+  @media (max-width: 1250px) {
+    max-width: 140px;
+    max-height: 200px;
+  }
+}
+
+.textLink {
+  padding-top: 30px;
+  margin-bottom: auto;
+  color: $black;
+  font-family: Onest, sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+  transition: all .05s ease-in-out;
+
+  &:hover {
+    color: $blue;
+  }
+
+  &:active {
+    color: $dark-blue;
+  }
+
+  @media (max-width: 1250px) {
+    padding-top: 20px;
+  }
+
+  @include media-xs {
+    font-size: 14px;
+  }
+}
+
+.priceAndCartBlock {
+  width: 100%;
+  margin-top: 24px;
+
+  @include flex-builder(row, space-between, center);
+}
+
+.price {
+  color: $black;
+  font-family: Onest, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  gap: 6px;
+
+  @include flex-builder(row, flex-start, center);
+
+  @include media-xs {
+    font-size: 18px;
+  }
+}
+
+.priceSpan {
+  font-size: 16px;
+  font-weight: 400;
+}
