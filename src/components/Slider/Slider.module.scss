@@ -1,0 +1,15 @@
+.container {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+.wrapper {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  transition: 1s transform ease-in-out;
+}

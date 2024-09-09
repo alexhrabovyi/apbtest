@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import {
   useCallback,
   useEffect,
@@ -7,33 +8,37 @@ import {
   useState,
 } from 'react';
 import classNames from 'classnames';
+import { useSearchParams } from 'react-router-dom';
 import { useGetProductsQuery, VehicleProduct } from '../../queryAPI/queryAPI';
 import useOnResize from '../../hooks/useOnResize';
 
 import Select from '../Select/Select';
 import FilterBlock from '../FilterBlock/FilterBlock';
-import AppliedFiltersBlock from '../AppliedFiltersBlock/AppliedFiltersBlock';
 import LeftSideMenu from '../LeftSideMenu/LeftSideMenu';
 import ProductCard from '../ProductCard/ProductCard';
+import Button from '../Button/Button';
 
 import containerCls from '../../scss/_container.module.scss';
 import mainCls from './Main.module.scss';
 
 import FilterIcon from './images/filter.svg';
+import Line from './images/oblique.svg';
 
 export interface Filters {
   [index: string]: string[]
 }
 
 export interface AppliedParameters {
-  sortBy: string,
+  sortBy?: string,
   filters: Filters,
+  minPrice?: number,
+  maxPrice?: number,
 }
 
-const uninterestingProps = ['category', 'description', 'id', 'images', 'meta', 'price', 'rating',
+export const uninterestingProps = ['category', 'description', 'id', 'images', 'meta', 'price', 'rating',
   'reviews', 'sku', 'stock', 'tags', 'thumbnail', 'title', 'dimensions'];
 
-const formattedFilterNames: { [index: string]: string } = {
+export const formattedFilterNames: { [index: string]: string } = {
   availabilityStatus: 'availability',
   discountPercentage: 'discount percentage',
   minimumOrderQuantity: 'minimum order quantity',
@@ -43,12 +48,14 @@ const formattedFilterNames: { [index: string]: string } = {
 };
 
 export default function Main() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const openFilterMenuBtnRef = useRef<HTMLButtonElement | null>(null);
 
   const [products, setProducts] = useState<VehicleProduct[] | null>(null);
   const [
     filteredAndSortedProducts, setFilteredAndSortedProducts,
-  ] = useState<VehicleProduct[] | null>(null);
+  ] = useState<VehicleProduct[]>([]);
   const [filters, setFilters] = useState<Filters | null>(null);
   const [appliedParameters, setAppliedParameters] = useState<AppliedParameters | null>(null);
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState<boolean>(false);
@@ -58,18 +65,17 @@ export default function Main() {
     const result: Filters = {};
 
     productsArr.forEach((p) => {
-      Object.entries<string>(p).forEach(([key, value]) => {
+      Object.entries(p).forEach(([key, value]) => {
         if (uninterestingProps.includes(key)) return;
 
         const stringifiedValue = String(value);
-        const formattedKey = formattedFilterNames[key] || key;
 
-        if (formattedKey in result) {
-          if (!result[formattedKey].includes(stringifiedValue)) {
-            result[formattedKey].push(stringifiedValue);
+        if (key in result) {
+          if (!result[key].includes(stringifiedValue)) {
+            result[key].push(stringifiedValue);
           }
         } else {
-          result[formattedKey] = [stringifiedValue];
+          result[key] = [stringifiedValue];
         }
       });
     });
@@ -87,11 +93,7 @@ export default function Main() {
 
   useOnResize(getWindowWidth);
 
-  const { data: fetchedData, isLoading, status: productsFetchingStatus } = useGetProductsQuery();
-
-  // if (productsFetchingStatus === 'rejected') {
-  //   throw new Response(null, { status: 404, statusText: 'Not found' });
-  // }
+  const { data: fetchedData, isLoading } = useGetProductsQuery();
 
   if (fetchedData && fetchedData !== products) {
     setProducts(fetchedData);
@@ -101,29 +103,32 @@ export default function Main() {
     setFilters(newFilters);
   }
 
-  // console.log(appliedParameters);
-  // console.dir(filteredAndSortedProducts);
-
   const onAppliedParametersChange = useCallback(() => {
     if (!appliedParameters || !products) return;
 
-    let result: VehicleProduct[] = [];
+    const result: VehicleProduct[] = [];
 
+    const { minPrice, maxPrice } = appliedParameters;
     const filtersToApply = Object.entries(appliedParameters.filters);
     const sortType = appliedParameters?.sortBy;
 
     products.forEach((p) => {
       let isSuitable = true;
 
-      (filtersToApply).forEach(([filterName, filterValues]) => {
-        if (!filterValues.length) return;
+      if (((minPrice !== undefined && maxPrice !== undefined)
+        && (p.price >= minPrice && p.price <= maxPrice))
+        || (minPrice === undefined && maxPrice === undefined)) {
+        filtersToApply.forEach(([filterName, filterValues]) => {
+          if (!filterValues.length) return;
 
-        const productValue = p[filterName] as string;
-        const isConsist = filterValues.includes[productValue];
-        console.log(filterValues.includes('1'));
+          const productValue = String(p[filterName as keyof VehicleProduct]);
+          const isConsist = filterValues.includes(productValue);
 
-        if (!isConsist) isSuitable = false;
-      });
+          if (!isConsist) isSuitable = false;
+        });
+      } else {
+        isSuitable = false;
+      }
 
       if (isSuitable) result.push(p);
     });
@@ -153,9 +158,6 @@ export default function Main() {
         result.sort((a, b) => +a.rating - +b.rating);
         break;
       }
-      default: {
-        result = products;
-      }
     }
 
     setFilteredAndSortedProducts(result);
@@ -163,7 +165,7 @@ export default function Main() {
 
   useEffect(onAppliedParametersChange, [onAppliedParametersChange]);
 
-  const productAmount = products?.length || 0;
+  const productAmount = filteredAndSortedProducts?.length || 0;
 
   const productCards = useMemo(() => (
     filteredAndSortedProducts?.map((p) => (
@@ -172,44 +174,44 @@ export default function Main() {
         title={p.title}
         productId={(p.id).toString()}
         price={(p.price).toString()}
+        rating={p.rating}
         src={p.thumbnail}
       />
     ))
   ), [filteredAndSortedProducts]);
 
-  // noproductsBlock setup
+  const noProductsBlock = useMemo(() => {
+    function deleteAllFiltersBtnOnClick() {
+      const newAppliedFilters: AppliedParameters = {
+        sortBy: appliedParameters?.sortBy,
+        filters: {},
+      };
 
-  // const noProductsBlock = useMemo(() => {
-  //   function deleteAllFiltersBtnOnClick() {
-  //     const newSearchParams = Array.from(searchParams).filter(([name]) => (
-  //       name === 'perView' || name === 'sortBy'
-  //     ));
-  //     setSearchParams(newSearchParams);
-  //   }
+      setAppliedParameters(newAppliedFilters);
 
-  //   return (
-  //     <div className={productsCls.noProductsBlock}>
-  //       <div className={productsCls.noProductsContent}>
-  //         <Line className={productsCls.noProductsLine} />
-  //         <p className={classNames(
-  //           textCls.text,
-  //           textCls.textFw800,
-  //           textCls.text48px,
-  //           productsCls.noProductsText,
-  //         )}
-  //         >
-  //           Товари не знайдено
-  //         </p>
-  //         <Button
-  //           className={productsCls.resetButton}
-  //           onClick={deleteAllFiltersBtnOnClick}
-  //         >
-  //           Видалити фільтри
-  //         </Button>
-  //       </div>
-  //     </div>
-  //   );
-  // }, [searchParams, setSearchParams]);
+      const newSearchParams = Array.from(searchParams).filter(([name]) => (
+        name === 'sortBy'
+      ));
+      setSearchParams(newSearchParams);
+    }
+
+    return (
+      <div className={mainCls.noProductsBlock}>
+        <div className={mainCls.noProductsContent}>
+          <Line className={mainCls.noProductsLine} />
+          <p className={mainCls.noProductsText}>
+            Products haven&apos;t been found
+          </p>
+          <Button
+            className={mainCls.resetButton}
+            onClick={deleteAllFiltersBtnOnClick}
+          >
+            Delete filters
+          </Button>
+        </div>
+      </div>
+    );
+  }, [appliedParameters, searchParams, setSearchParams]);
 
   const sortSelectOptions = useMemo(() => [
     {
@@ -259,7 +261,7 @@ export default function Main() {
                 <FilterIcon className={mainCls.filterIcon} />
               </button>
             )}
-            {windowWidth > 576 && (
+            {windowWidth > 400 && (
               <p
                 className={mainCls.productAmount}
                 aria-atomic="true"
@@ -291,10 +293,7 @@ export default function Main() {
             />
           )}
           <div className={mainCls.products}>
-            {windowWidth > 1024 && <AppliedFiltersBlock />}
-            {/* {productCards === undefined ? (
-              <ThreeDotsSpinnerBlock blockClassName={productsCls.spinnerBlock} />
-            ) : (productCards.length > 0 ? productCards : noProductsBlock)} */}
+            {!isLoading && !productCards.length && noProductsBlock}
             {productCards}
           </div>
         </div>

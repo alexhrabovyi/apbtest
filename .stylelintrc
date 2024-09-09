@@ -1,0 +1,19 @@
+{
+  "plugins": [
+    "stylelint-color-format",
+    "stylelint-declaration-block-no-ignored-properties",
+    "stylelint-order"
+  ],
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-idiomatic-order"
+  ],
+  "rules": {
+    "media-feature-range-notation": "prefix",
+    "color-format/format": {
+      "format": "rgb"
+    },
+    "plugin/declaration-block-no-ignored-properties": true,
+    "selector-class-pattern": "."
+  }
+}

@@ -8,11 +8,16 @@ import React, {
 import { useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useGetProductsQuery } from '../../../queryAPI/queryAPI';
+import { AppliedParameters } from '../../Main/Main';
 import useOnResize from '../../../hooks/useOnResize';
 import filterCls from './FilterPriceForm.module.scss';
 import ChevronUp from './images/chevronUp.svg';
 
-const FilterPriceForm: React.FC = () => {
+interface PriceFormProps {
+  setFilterParams: React.Dispatch<React.SetStateAction<AppliedParameters | null>>,
+}
+
+const FilterPriceForm: React.FC<PriceFormProps> = ({ setFilterParams }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [isClosed, setIsClose] = useState<boolean>(false);
@@ -225,6 +230,12 @@ const FilterPriceForm: React.FC = () => {
     searchParams.set('maxPrice', String(currentMaxPrice));
 
     setSearchParams(searchParams);
+
+    setFilterParams((p) => ({
+      ...p as AppliedParameters,
+      minPrice: currentMinPrice - 1,
+      maxPrice: currentMaxPrice,
+    }));
   }
 
   const inputOnInput: FormEventHandler<HTMLInputElement> = (e) => {

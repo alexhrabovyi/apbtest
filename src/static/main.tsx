@@ -6,11 +6,17 @@ import store from '../globalStore/globalStore';
 import './main.scss';
 
 import MainPage from '../pages/main/main';
+import VehiclePage from '../pages/vehicle/vehicle';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <MainPage />,
+    children: [],
+  },
+  {
+    path: '/vehicles/:vehicleId',
+    element: <VehiclePage />,
     children: [],
   },
 ]);

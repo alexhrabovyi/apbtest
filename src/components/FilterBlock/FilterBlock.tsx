@@ -4,7 +4,7 @@ import filterCls from './FilterBlock.module.scss';
 import FilterForm from './FilterForm/FilterForm';
 import FilterPriceForm from './FilterPriceForm/FilterPriceForm';
 import ThreeDotsSpinnerBlock from '../ThreeDotsSpinnerBlock/ThreeDotsSpinnerBlock';
-import { AppliedParameters, Filters } from '../Main/Main';
+import { formattedFilterNames, AppliedParameters, Filters } from '../Main/Main';
 
 interface FilterBlockProps {
   filters: Filters | null,
@@ -20,6 +20,7 @@ const FilterBlock = memo<FilterBlockProps>(({ filters, isLoading, setFilterParam
       <FilterForm
         key={key}
         name={key}
+        label={formattedFilterNames[key] || key}
         values={value}
         initIsClosed={i > 1}
         setFilterParams={setFilterParams}
@@ -33,7 +34,9 @@ const FilterBlock = memo<FilterBlockProps>(({ filters, isLoading, setFilterParam
       isLoading && filterCls.filterBlock_inactive,
     )}
     >
-      <FilterPriceForm />
+      <FilterPriceForm
+        setFilterParams={setFilterParams}
+      />
       {filterElems || <ThreeDotsSpinnerBlock />}
     </div>
   );

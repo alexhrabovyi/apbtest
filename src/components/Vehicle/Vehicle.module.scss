@@ -1,0 +1,627 @@
+@import '../../scss/colors';
+@import '../../scss/mixins';
+
+.main {
+  margin-top: 68px;
+  margin-bottom: 160px;
+
+  @include flex-builder(column, flex-start, flex-start);
+
+  @media (max-width: 1600px) {
+    margin-bottom: 140px;
+  }
+
+  @include media-l {
+    margin-bottom: 120px;
+  }
+
+  @include media-m {
+    margin-bottom: 100px;
+  }
+
+  @include media-s {
+    margin-top: 50px;
+    margin-bottom: 80px;
+  }
+
+  @include media-xs {
+    @include flex-builder(column, flex-start, center);
+
+    margin-top: 40px; 
+  }
+
+  &_inactive {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.mainBlock {
+  display: grid;
+  width: 100%;
+  margin-bottom: 80px;
+  grid-template-columns: 1fr 10% 30%;
+
+  @media (max-width: 1250px) {
+    margin-bottom: 70px;
+  }
+
+  @include media-m {
+    grid-template-columns: 1fr 5% 35%;
+  }
+
+  @include media-s {
+    margin-bottom: 60px;
+    gap: 40px;
+    grid-template-columns: 1fr;
+
+  }
+
+  @include media-xs {
+    width: 100%;
+    margin-top: 40px;
+  }
+}
+
+.imageSliderBlock {
+  width: 100%;
+
+  @include flex-builder(column-reverse, flex-start, flex-start);
+
+  gap: 3%;
+
+  @include media-l {
+    gap: 5%;
+  }
+}
+
+.imagePaginationBlock {
+  @include flex-builder(row, flex-start, center);
+
+  gap: 12px;
+
+  @include media-s {
+    flex-wrap: wrap;
+  }
+}
+
+.titleAndPriceBlock {
+  gap: 40px;
+  grid-column: 3/4;
+
+  @include flex-builder(column, flex-start, flex-start);
+
+  @include media-s {
+    grid-column: 1/2;
+  }
+}
+
+.priceAndCartBlock {
+  align-self: flex-start;
+  padding: 10.25%;
+  border-radius: 4px;
+  background: $light-blue;
+
+  @media (max-width: 1600px) {
+    padding: 8%;
+  }
+
+  @include media-m {
+    width: 100%;
+    padding: 5%;
+  }
+
+  @include media-s {
+    max-width: 300px;
+    align-self: center;
+  }
+}
+
+.mainPriceBlock {
+  @include flex-builder(row, flex-start, center);
+
+  gap: 8px;
+
+  @include media-s {
+    @include flex-builder(row, center, center);
+  }
+}
+
+.priceSpan {
+  color: $black;
+  font-family: Onest, sans-serif;
+}
+
+.mainPrice {
+  color: $black;
+  font-family: Onest, sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+
+  @include media-l {
+    font-size: 42px;
+  }
+
+  @include media-m {
+    font-size: 32px;
+  }
+
+  // @include media-s {
+  //   font-size: 40px;
+  // }
+
+  @include media-xs {
+    font-size: 38px;
+  }
+}
+
+.discountBlock {
+  align-self: flex-start;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-left: 10px;
+  background-color: $yellow;
+  color: $black;
+  font-family: Onest, sans-serif;
+  font-size: 16px;
+  transform: translateY(-50%);
+}
+
+.cartBtnAndBannerBlock {
+  position: relative;
+  width: 100%;
+}
+
+.cartButton {
+  width: 100%;
+  height: 60px;
+  margin-top: 32px;
+  font-size: 16px;
+
+  @media (max-width: 1100px) {
+    height: 48px;
+    margin-top: 24px;
+    font-size: 14px;
+  }
+}
+
+.tabList {
+  width: 100%;
+  border-bottom: 1px solid $dark-grey;
+
+  @include flex-builder(row, flex-start, center);
+
+  gap: 32px;
+}
+
+.tabButtonLine {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  display: none;
+  width: 100%;
+  height: 2px;
+  background: $blue;
+
+  &_active {
+    display: block;
+  }
+}
+
+.tabButton {
+  position: relative;
+  padding-right: 15px;
+  padding-bottom: 22px;
+  padding-left: 15px;
+  border: none;
+  background: none;
+  color: $black;
+  cursor: pointer;
+  font-family: Onest, sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: all .05s ease-in-out;
+
+  @include media-xs {
+    padding-bottom: 18px;
+    font-size: 16px;
+  }
+
+  &:hover .tabButtonLine {
+    display: block;
+  }
+}
+
+.tabPanelsAndBannerBlock {
+  display: grid;
+  width: 100%;
+  margin-top: 60px;
+  gap: 9.48%;
+  grid-template-columns: 1fr 312px;
+
+  @include media-l {
+    gap: 7%;
+    grid-template-columns: 1fr 29.4%;
+  }
+
+  @include media-m {
+    gap: 80px;
+    grid-template-columns: 1fr;
+  }
+
+  @include media-s {
+    margin-top: 50px;
+  }
+
+  @include media-xs {
+    margin-top: 40px;
+  }
+}
+
+.tabPanel {
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  &_active {
+    display: flex;
+  }
+} 
+
+.title {
+  color: $black;
+  font-family: Onest, sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+  text-transform: uppercase;
+
+  @include media-m {
+    font-size: 34px;
+  }
+
+  @include media-s {
+    font-size: 30px;
+  }
+
+  @include media-xs {
+    font-size: 28px;
+  }
+}
+
+.paginationBtn {
+  overflow: hidden;
+  width: 88px;
+  height: 88px;
+  border: 1px solid $dark-grey;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  transition: all .05s ease-in-out;
+
+  @include flex-builder(row, center, center);
+
+  &:hover {
+    border-color: $blue;
+  }
+
+  &:active {
+    border-color: $dark-blue;
+  }
+
+  &_active {
+    border-color: $blue;
+
+    &:hover {
+      border-color: $dark-blue;
+    }
+
+    &:active {
+      border-color: $blue-active;
+    }
+  }
+
+  @media (max-width: 1600px) {
+    width: 70px;
+    height: 70px;
+  }
+
+  @include media-m {
+    width: 50px;
+    height: 50px;
+  }
+
+  @include media-s {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.paginationBtnImg {
+  width: 70%;
+  transform: scale(1.5);
+}
+
+.slide {
+  overflow: hidden;
+
+  @include flex-builder(row, center, flex-start);
+
+  width: 100%;
+}
+
+.slideImg {
+  width: 100%;
+  transform: scale(1.3);
+}
+
+.descriptionBlock {
+  margin-bottom: 68px;
+
+  @include media-m {
+    width: 100%;
+    max-width: 700px;
+    align-self: center;
+  }
+
+  @include media-s {
+    margin-bottom: 60px;
+  }
+
+  @include media-xs {
+    margin-bottom: 50px;
+  }
+}
+
+.descriptionSubtitle {
+  margin-bottom: 16px;
+  color: $black;
+  font-family: Onest, sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  text-transform: uppercase;
+
+  @include media-s {
+    font-size: 26px;
+  }
+
+  @include media-xs {
+    font-size: 24px;
+  }
+}
+
+.descriptionText {
+  color: $black;
+  font-family: Onest, sans-serif;
+}
+
+.specsBlock {
+  width: 100%;
+
+  @include media-m {
+    width: 100%;
+    max-width: 700px;
+    align-self: center;
+  }
+}
+
+.specsTitle {
+  margin-bottom: 24px;
+  color: $black; 
+  font-family: Onest, sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+
+  @include media-xs {
+    font-size: 22px;
+  }
+}
+
+.specsList {
+  gap: 20px;
+  list-style: none;
+
+  @include flex-builder(column, flex-start, flex-start);
+}
+
+.spec {
+  display: grid;
+  width: 100%;
+  gap: 10px;
+  grid-template-columns: 50% 50%;
+}
+
+
+.specName {
+  color: $text-grey;
+  font-family: Onest, sans-serif;
+}
+
+.specValue {
+  color: $black;
+  font-family: Onest, sans-serif;
+}
+
+.reviews {
+  width: 100%;
+
+  @include flex-builder(column, flex-start, stretch);
+
+  gap: 40px;
+}
+
+.review {
+  width: 100%;
+
+  @include flex-builder(column, flex-start,  flex-start);
+
+  gap: 12px;
+}
+
+.nameAndDate {
+  width: 100%;
+  font-family: Onest, sans-serif;
+
+  @include flex-builder(row, space-between, center);
+}
+
+.reviewName {
+  color: $black;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.reviewDate {
+  color: $text-grey;
+  font-size: 14px;
+}
+
+.starsBlock {
+  @include flex-builder(row, flex-start, center);
+
+  gap: 4px;
+}
+
+.starActive {
+  fill: $yellow;
+}
+
+.starInactive {
+  fill: $dark-grey;
+}
+
+.reviewText {
+  color: $text-grey;
+  font-family: Onest, sans-serif;
+  font-size: 16px;
+}
+
+.commentForm {
+  width: 100%;
+  max-width: 600px;
+}
+
+.commentFormTitle {
+  margin-bottom: 20px;
+  color: $black;
+  font-family: Onest, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.commentFormStars {
+  @include flex-builder(row, flex-start, center);
+
+  margin-bottom: 20px;
+  gap: 6px;
+}
+
+.createCommentStarActive {
+  width: 22px;
+  height: auto;
+  fill: $yellow;
+  transition: all .05s ease-in-out;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.createCommentStarInactive {
+  width: 22px;
+  height: auto;
+  fill: $dark-grey;
+  transition: all .05s ease-in-out;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.inputsAndTextarea {
+  display: grid;
+  gap: 20px 30px;
+  grid-template-columns: 1fr 1fr;
+
+  @include media-s {
+    grid-template-columns: 1fr;
+  }
+}
+
+.input {
+  height: 42px;
+  padding-left: 16px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  background-color: $light-blue;
+  color: rgb(135 140 158);
+  font-family: Onest, sans-serif;
+  font-size: 16px;
+  transition: all .05s ease-in-out;
+
+  &:hover {
+    background-color: $dark-grey;
+  }
+
+  &:focus {
+    border-color: $blue;
+    background-color: $white;
+    color: $black;
+    outline: none;
+  }
+
+  &:focus::placeholder {
+    color: transparent;
+  }
+}
+
+.textarea {
+  height: 150px;
+  padding-top: 17px;
+  padding-left: 16px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  background-color: $light-blue;
+  color: rgb(135 140 158);
+  font-family: Onest, sans-serif;
+  font-size: 16px;
+  grid-column: 1/3;
+  resize: none;
+  transition: all .05s ease-in-out;
+
+  &:hover {
+    background-color: $dark-grey;
+  }
+
+  &:focus {
+    border-color: $blue;
+    background-color: $white;
+    color: $black;
+    outline: none;
+  }
+
+  &:focus::placeholder {
+    color: transparent;
+  }
+
+  @include media-s {
+    grid-column: 1/2;
+  }
+}
+
+.submitButton {
+  width: 120px;
+  height: 40px;
+  margin-top: 20px;
+}
+
+.commentBlockLine {
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin: 40px 0;
+  background-color: $dark-grey;
+}

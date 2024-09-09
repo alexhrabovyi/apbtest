@@ -70,7 +70,9 @@
 }
 
 .imageLink {
+  overflow: hidden;
   width: 100%;
+  height: 280px;
 
   @include flex-builder(row, center, center);
 
@@ -85,15 +87,22 @@
 
 .image {
   width: 100%;
+  transform: scale(2.3);
 
   @media (max-width: 1600px) {
     max-width: 160px;
     max-height: 220px;
+    transform: scale(2.5);
   }
 
   @media (max-width: 1250px) {
     max-width: 140px;
     max-height: 200px;
+    transform: scale(2.6);
+  }
+
+  @media (max-width: 400px) {
+    transform: scale(3);
   }
 }
 
@@ -123,11 +132,13 @@
   }
 }
 
-.priceAndCartBlock {
+.priceAndStarsBlock {
   width: 100%;
   margin-top: 24px;
 
-  @include flex-builder(row, space-between, center);
+  @include flex-builder(column, flex-start, flex-start);
+
+  gap: 15px;
 }
 
 .price {
@@ -147,4 +158,18 @@
 .priceSpan {
   font-size: 16px;
   font-weight: 400;
+}
+
+.starsBlock {
+  @include flex-builder(row, flex-start, center);
+
+  gap: 4px;
+}
+
+.starIconActive {
+  fill: $yellow;
+}
+
+.starIconInactive {
+  fill: $dark-grey;
 }

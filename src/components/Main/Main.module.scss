@@ -27,7 +27,6 @@
   }
 }
 
-// test
 .controlBlock {
   display: grid;
   width: 100%;
@@ -49,7 +48,6 @@
   }
 }
 
-// test
 .infoBlock {
   @include media-m {
     @include flex-builder(row, flex-start, center);
@@ -85,16 +83,14 @@
   height: 24px;
 }
 
-// test
 .productAmount {
   @include flex-builder(row, flex-start, center);
 
-  font-family: Onest, sans-serif;
   color: $black;
+  font-family: Onest, sans-serif;
   gap: 4px;
 }
 
-// test 
 .sortAndAppearanceBlock {
   @include flex-builder(row, space-between, center);
 
@@ -107,7 +103,6 @@
   }
 }
 
-// test
 .filtersAndProducts {
   display: grid;
   align-items: start;
@@ -127,7 +122,6 @@
   }
 }
 
-// test
 .products {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -137,8 +131,80 @@
   }
 }
 
-//test
-
 .filterBlockInMenu {
   width: 100%;
+}
+
+.noProductsBlock {
+  padding-top: 70px;
+  grid-column: 1/4;
+
+  @include flex-builder(row, center, center);
+
+  @include media-s {
+    width: 100%;
+  }
+}
+
+.noProductsContent {
+  position: relative;
+
+  @include flex-builder(column, flex-start, center);
+
+  gap: 30px;
+}
+
+.noProductsLine {
+  position: absolute;
+  top: -30px;
+  left: -70px;
+  width: 100px;
+  height: auto;
+  fill: $blue;
+
+  @include media-l {
+    top: -25px;
+    left: -60px;
+    width: 80px;
+  }
+
+  @include media-s {
+    top: -20px;
+    left: -55px;
+    width: 70px;
+  }
+
+  @include media-xs {
+    display: none;
+  }
+}
+
+.noProductsText {  
+  font-family: Onest, sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  text-transform: uppercase;
+
+  @include media-l {
+    font-size: 36px;
+  }
+
+  @include media-m {
+    font-size: 42px;
+  }
+
+  @include media-s {
+    font-size: 32px;
+  }
+
+  @include media-xs {
+    font-size: 28px;
+    text-align: center;
+  }
+}
+
+.resetButton {
+  width: 200px;
+  height: 50px;
+  font-size: 16px;
 }

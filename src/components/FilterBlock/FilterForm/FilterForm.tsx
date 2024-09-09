@@ -1,5 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import classNames from 'classnames';
 import filterCls from './FilterForm.module.scss';
 import ChevronUp from './images/chevronUp.svg';
@@ -8,13 +10,14 @@ import { AppliedParameters } from '../../Main/Main';
 
 interface FilterFormProps {
   name: string,
+  label: string,
   values: string[],
   initIsClosed: boolean,
   setFilterParams: React.Dispatch<React.SetStateAction<AppliedParameters | null>>,
 }
 
 const FilterForm: React.FC<FilterFormProps> = ({
-  name, values, initIsClosed = false, setFilterParams,
+  name, label, values, initIsClosed = false, setFilterParams,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const listRef = useRef<HTMLUListElement | null>(null);
@@ -101,10 +104,10 @@ const FilterForm: React.FC<FilterFormProps> = ({
         type="button"
         className={filterCls.titleButton}
         onClick={() => setIsClose(!isClosed)}
-        aria-label={isClosed ? `Open filter menu ${name}` : `Collapse filter menu ${name}`}
+        aria-label={isClosed ? `Open filter menu ${label}` : `Collapse filter menu ${label}`}
       >
         <p className={filterCls.title}>
-          {name}
+          {label}
         </p>
         <ChevronUp className={classNames(
           filterCls.chevron,
